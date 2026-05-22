@@ -52,7 +52,7 @@ class MythosConfig:
     dim: int = 2048
     n_heads: int = 16
     n_kv_heads: int = 4  # GQA: fewer KV heads than Q heads
-    max_seq_len: int = 4096
+    max_seq_len: int = 16384
     max_loop_iters: int = 16  # T — recurrent depth at inference
     prelude_layers: int = 2
     coda_layers: int = 2
