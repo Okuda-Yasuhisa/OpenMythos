@@ -31,7 +31,7 @@ from datasets import load_dataset
 
 from open_mythos import OpenMythos
 from open_mythos.main import TransformerBlock, RecurrentBlock
-from open_mythos.variants import mythos_3b
+from open_mythos.variants import custom_mythos
 from open_mythos.tokenizer import MythosTokenizer
 
 
@@ -371,8 +371,8 @@ def main():
     # ------------------------------------------------------------------
     # Hyperparameters
     # ------------------------------------------------------------------
-    seq_len = 2048
-    micro_batch = 4
+    seq_len = 16384
+    micro_batch = 1
     target_tokens = 30_000_000_000
     grad_accum = max(1, 256 // (world_size * micro_batch))
     global_batch_tok = world_size * micro_batch * grad_accum * seq_len
@@ -394,7 +394,7 @@ def main():
     # ------------------------------------------------------------------
     # Model
     # ------------------------------------------------------------------
-    cfg = mythos_3b()
+    cfg = custom_mythos()
     cfg.vocab_size = vocab_size
     cfg.max_seq_len = seq_len
 
