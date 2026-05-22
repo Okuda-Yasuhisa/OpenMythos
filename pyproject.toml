@@ -1,18 +1,15 @@
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.10.0,<0.11.0"]
+build-backend = "uv_build"
 
-
-[tool.poetry]
+[project]
 name = "open-mythos"
 version = "0.5.0"
 description = "OpenMythos — open-source theoretical reconstruction of the Claude Mythos Recurrent-Depth Transformer architecture"
-license = "MIT"
-authors = ["Kye Gomez <kye@swarms.world>"]
-homepage = "https://github.com/The-Swarm-Corporation/OpenMythos"
-documentation = "https://github.com/The-Swarm-Corporation/OpenMythos/blob/main/docs/open_mythos.md"
+authors = [{ name = "Kye Gomez", email = "kye@swarms.world" }]
+requires-python = ">=3.10,<4.0"
 readme = "README.md"
-repository = "https://github.com/The-Swarm-Corporation/OpenMythos"
+license = "MIT"
 keywords = [
     "artificial intelligence",
     "deep learning",
@@ -33,35 +30,45 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.40.0",
+    "datasets>=2.18.0",
+    "pytest>=7.0.0",
 ]
 
+[tool.uv.build-backend]
+module-root = ""
+module-name = "open_mythos"
 
-[tool.poetry.dependencies]
-python = ">=3.10,<4.0"
-torch = "2.11.0"
-transformers = ">=4.40.0"
-datasets = ">=2.18.0"
+[project.optional-dependencies]
+flash = ["flash-attn>=2.8.3"]
 
-[tool.poetry.extras]
-flash = ["flash-attn"]
+[project.urls]
+Homepage = "https://github.com/The-Swarm-Corporation/OpenMythos"
+Repository = "https://github.com/The-Swarm-Corporation/OpenMythos"
+Documentation = "https://github.com/The-Swarm-Corporation/OpenMythos/blob/main/docs/open_mythos.md"
 
-[tool.poetry.dependencies.flash-attn]
-version = ">=2.8.3"
-optional = true
+[dependency-groups]
+lint = [
+    "black>=23.1,<27.0",
+    "ruff>=0.5.1,<0.15.9",
+]
+test = ["pytest>=8.1.1,<10.0.0"]
+dev = [
+    "black",
+    "ruff",
+    "pytest",
+]
 
-
-[tool.poetry.group.lint.dependencies]
-black = ">=23.1,<27.0"
-ruff = ">=0.5.1,<0.15.9"
-
-
-[tool.poetry.group.test.dependencies]
-pytest = ">=8.1.1,<10.0.0"
-
-[tool.poetry.group.dev.dependencies]
-black = "*"
-ruff = "*"
-pytest = "*"
+[tool.uv]
+default-groups = "all"
 
 [tool.ruff]
 line-length = 88
@@ -84,3 +91,13 @@ exclude = '''
   | docs
 )/
 '''
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
