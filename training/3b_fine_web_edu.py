@@ -90,7 +90,7 @@ class FineWebEduDataset(IterableDataset):
         shard_index = self.rank * num_workers + worker_id
 
         ds = load_dataset(
-            "HuggingFaceFW/fineweb-edu",
+            "hotchpotch/fineweb-2-edu-japanese",
             name=self.subset,
             split="train",
             streaming=True,
@@ -383,7 +383,7 @@ def main():
     log_every = 10
     ckpt_every = 1000
     ckpt_dir = "checkpoints"
-    dataset_subset = "sample-10BT"  # → sample-100BT or "default" for full run
+    dataset_subset = "small_tokens_cleaned"  # → sample-100BT or "default" for full run
 
     if master:
         logger.info(
